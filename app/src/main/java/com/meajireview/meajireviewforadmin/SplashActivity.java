@@ -11,7 +11,7 @@ import android.support.v7.app.AppCompatActivity;
  */
 
 public class SplashActivity extends AppCompatActivity {
-    int SPLASH_TIME=3000;
+    int SPLASH_TIME=1000;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +22,7 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this,MainActivity.class));
+                startActivity(new Intent(SplashActivity.this,LoginActivity.class));
                 finish();
             }
         }, SPLASH_TIME);
