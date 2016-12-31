@@ -4,9 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 /**
  * Created by songm on 2016-11-14.
@@ -29,8 +34,18 @@ public class LoginActivity extends AppCompatActivity{
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {       //login버튼 클릭 시
-
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                ParseUser.logInInBackground(id_text.getText().toString(), pass_text.getText().toString(), new LogInCallback() {
+                    @Override
+                    public void done(ParseUser parseUser, ParseException e) {
+                        if(parseUser!=null) {
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            Log.e("asdf",id_text.getText().toString());
+                            Log.e("asdf",pass_text.getText().toString());
+                        }
+                        Log.e("asd1f",id_text.getText().toString());
+                        Log.e("asdf1",pass_text.getText().toString());
+                    }
+                });
 
             }
         });

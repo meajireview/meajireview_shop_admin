@@ -10,6 +10,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,12 +62,20 @@ public class MenuEditActivity extends AppCompatActivity {
      * List생성 메소드<br>
      */
     private void makeList() {
-        List<ShopItem> shopItems = new ArrayList<>();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Menu");
+        query.whereEqualTo("shop_id",getIntent().getIntExtra("shopId",-1));
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
 
-        for(int i=0;i<11;i++)                          //나중에 db에서 가져올 때 변경 필요.
-            shopItems.add(new ShopItem("치닭삼","6000원"));
+                List<ShopItem> shopItems = new ArrayList<>();
+                for (ParseObject o : list){
+                    shopItems.add(new ShopItem(o.getString("name"),o.getInt("price")+"원"));
+                }
+                recyclerView.setAdapter(new MenuAdapter(getApplicationContext(),shopItems));
+            }
+        });
 
-        recyclerView.setAdapter(new MenuAdapter(getApplicationContext(),shopItems));
     }
 
     @Override
